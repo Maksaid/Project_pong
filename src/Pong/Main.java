@@ -18,22 +18,22 @@ public class Main extends JPanel implements ActionListener {
 
     JFrame frame;
 
-    LeftPaddle leftPaddle;
+    Paddle leftPaddle;
 
-    RightPaddle rightPaddle;
+    Paddle rightPaddle;
 
     Ball ball;
 
     Image img = new ImageIcon("field.png").getImage();
 
-    Timer timer = new Timer(13, this);
+    Timer timer = new Timer(7, this);
 
 
     public Main(JFrame frame) {
         this.frame = frame;
 
-        leftPaddle = new LeftPaddle(frame);
-        rightPaddle = new RightPaddle(frame);
+        leftPaddle = new Paddle(frame);
+        rightPaddle = new Paddle(frame);
          ball = new Ball(frame);
          ball.setLeftPaddle(leftPaddle);
          ball.setRightPaddle(rightPaddle);
@@ -41,22 +41,17 @@ public class Main extends JPanel implements ActionListener {
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                leftPaddle.keyPressed(e);
-                rightPaddle.keyPressed(e);
+                leftPaddle.keyPressed(e,KeyEvent.VK_W,KeyEvent.VK_S);
+                rightPaddle.keyPressed(e,KeyEvent.VK_UP,KeyEvent.VK_DOWN);
             }
 
-            @Override
+           /* @Override
             public void keyReleased(KeyEvent e) {
                 leftPaddle.keyReleased(e);
                 rightPaddle.keyReleased(e);
 
             }
-            @Override
-            public void keyTyped(KeyEvent e){
-                leftPaddle.keyTyped(e);
-                rightPaddle.keyTyped(e);
-            }
-
+*/
         });
 
     }
@@ -65,9 +60,9 @@ public class Main extends JPanel implements ActionListener {
 
         g.drawImage(img, 0, 0, frame.getWidth(), frame.getHeight(), null);
         g.setColor(Color.WHITE);
-        g.drawRect(100, leftPaddle.getLY(), 25, leftPaddle.getPaddleHeight());
+        g.drawRect(100, leftPaddle.getY(), 25, leftPaddle.getPaddleHeight());
         g.setColor(Color.MAGENTA);
-        g.drawRect(frame.getWidth()-125,rightPaddle.getRY(),25,rightPaddle.getPaddleHeight());
+        g.drawRect(frame.getWidth()-125,rightPaddle.getY(),25,rightPaddle.getPaddleHeight());
         g.setColor(Color.white);
         g.fillOval(ball.getBallX()-5,ball.getBallY()-5,10 ,10);
         g.drawString(ball.getP1score(),frame.getWidth()/4,40);
@@ -79,7 +74,7 @@ public class Main extends JPanel implements ActionListener {
         // TODO Auto-generated method stub
         leftPaddle.move();
         ball.move();
-        rightPaddle.moveR();
+        rightPaddle.move();
         repaint();
     }
 
