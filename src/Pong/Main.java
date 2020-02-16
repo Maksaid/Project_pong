@@ -45,13 +45,13 @@ public class Main extends JPanel implements ActionListener {
                 rightPaddle.keyPressed(e,KeyEvent.VK_UP,KeyEvent.VK_DOWN);
             }
 
-           /* @Override
+            @Override
             public void keyReleased(KeyEvent e) {
-                leftPaddle.keyReleased(e);
-                rightPaddle.keyReleased(e);
+                leftPaddle.keyReleased(e,KeyEvent.VK_W,KeyEvent.VK_S);
+                rightPaddle.keyReleased(e,KeyEvent.VK_UP,KeyEvent.VK_DOWN);
 
             }
-*/
+
         });
 
     }

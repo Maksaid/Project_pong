@@ -31,6 +31,15 @@ public class Paddle {
             playerDirection = Direction.DOWN;
         }
     }
+    public void keyReleased(KeyEvent e,  int key1, int key2){
+        int key = e.getKeyCode();
+        if (key == key1) {
+            playerDirection = Direction.NONE;
+        }
+        if (key == key2) {
+            playerDirection = Direction.NONE;
+        }
+    }
     public void move() {
 
         switch(playerDirection) {
