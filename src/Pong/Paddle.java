@@ -3,13 +3,15 @@ package Pong;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 
+import static Pong.Main.solo;
+
 public class Paddle {
     public Direction playerDirection = Direction.NONE;
     Ball ball;
     JFrame frame;
     private int X, Y;
     private int paddleHeight;
-    private int speed = 5 ;
+    private int speed = 5;
 
     public Paddle(JFrame frame) {
 
@@ -21,17 +23,19 @@ public class Paddle {
     }
 
 
-
-    public void keyPressed(KeyEvent e,  int key1, int key2) {
+    public void keyPressed(KeyEvent e, int key1, int key2) {
         int key = e.getKeyCode();
         if (key == key1) {
             playerDirection = Direction.UP;
+
         }
         if (key == key2) {
+
             playerDirection = Direction.DOWN;
         }
     }
-    public void keyReleased(KeyEvent e,  int key1, int key2){
+
+    public void keyReleased(KeyEvent e, int key1, int key2) {
         int key = e.getKeyCode();
         if (key == key1) {
             playerDirection = Direction.NONE;
@@ -40,11 +44,13 @@ public class Paddle {
             playerDirection = Direction.NONE;
         }
     }
+
     public void move() {
 
-        switch(playerDirection) {
+        switch (playerDirection) {
             case DOWN:
-                if(Y < frame.getHeight()-paddleHeight - 10)
+
+                if (Y < frame.getHeight() - paddleHeight - 10)
                     Y += speed;
                 else
                     playerDirection = Direction.NONE;
@@ -58,7 +64,19 @@ public class Paddle {
                 break;
             default:
                 break;
-        }}
+        }
+    }
+
+    public void solomove() {
+
+        if (ball.getBallY() > Y + paddleHeight / 2) {
+            if (Y < frame.getHeight() - paddleHeight - 5)
+                Y += 3;
+
+        } else if (Y > 5)
+
+            Y -= 3;
+    }
 
     public Direction getPlayerDirection() {
         return playerDirection;
@@ -78,5 +96,9 @@ public class Paddle {
 
     public void setX(int x) {
         X = x;
+    }
+
+    public void setY(int y) {
+        Y = y;
     }
 }

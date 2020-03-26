@@ -10,7 +10,7 @@ public class Ball {
     private int BallY;
     private int BalldirX;
     private int BalldirY;
-    private int BallSpeed = 5;
+    private int BallSpeed = 6;
     private int p1score, p2score;
     private boolean firstmove = true;
     JFrame frame;
@@ -18,76 +18,79 @@ public class Ball {
     Paddle leftPaddle;
     Paddle rightPaddle;
 
-    public Ball(JFrame frame){
+    public Ball(JFrame frame) {
         this.frame = frame;
-        p1score=p2score=0;
-        BallX = frame.getWidth()/2 ;
-        BallY = frame.getHeight()/2;
+        p1score = p2score = 0;
+        BallX = frame.getWidth() / 2;
+        BallY = frame.getHeight() / 2;
         Random r = new Random();
     }
-    void move(){
-        if(firstmove){
-        spawnBall();
-        firstmove=false;}
+
+    void move() {
+        if (Main.menu) {
+            firstmove = true;
+            p1score = 0;
+            p2score = 0;
+        }
+        if (firstmove && !Main.menu) {
+            leftPaddle.setY(frame.getHeight() / 2 - frame.getHeight() / 14);
+            rightPaddle.setY(frame.getHeight() / 2 - frame.getHeight() / 14);
+            spawnBall();
+            firstmove = false;
+        }
         BallX += BalldirX;
         BallY += BalldirY;
-        if(BallX + BalldirX >= frame.getWidth() || BallX + BalldirX <= 0){
-            if(BallX + BalldirX >= frame.getWidth()){
+        if (BallX + BalldirX >= frame.getWidth() || BallX + BalldirX <= 0) {
+            if (BallX + BalldirX >= frame.getWidth()) {
                 spawnBall();
                 p1score++;
-                BallX = frame.getWidth()/2 ;
-                BallY = frame.getHeight()/2;}
-            else{
+                BallX = frame.getWidth() / 2;
+                BallY = frame.getHeight() / 2;
+            } else {
                 p2score++;
                 spawnBall();
-                BallX = frame.getWidth()/2 ;
-                BallY = frame.getHeight()/2;}
+                BallX = frame.getWidth() / 2;
+                BallY = frame.getHeight() / 2;
+            }
 
 
         }
-        if(BallY + BalldirY >= frame.getHeight() || BallY + BalldirY <= 0 ){
+        if (BallY + BalldirY >= frame.getHeight() || BallY + BalldirY <= 0) {
             BalldirY *= -1;
         }
         //столкновение с ракетками
-        if (BallX+BalldirX >=105 && BallX+BalldirX <= 130 && (BallY + BalldirY< leftPaddle.getY()+leftPaddle.getPaddleHeight() )&& BallY + BalldirY> leftPaddle.getY()  )
-            if (leftPaddle.getPlayerDirection() == Direction.UP) {
-                BalldirX = (BalldirX * -1) + 1;
-                BalldirY -= 1;
+        if (BallX + BalldirX >= 125 && BallX + BalldirX <= 130 && (BallY + BalldirY < leftPaddle.getY() + leftPaddle.getPaddleHeight() + 20) && BallY + BalldirY > leftPaddle.getY() - 20) {
+            BalldirX = (BalldirX * -1);
+            if (BalldirY == 2 || BalldirY == -2) {
+                BalldirY = BalldirY + ((Math.random() < 0.5) ? -1 : 1);
+            } else if (BalldirY < 0) {
+                BalldirY = -2;
+            } else
+                BalldirY = 2;
 
-            }
-        else
-                if (leftPaddle.getPlayerDirection() == Direction.DOWN){
-                BalldirX = (BalldirX * -1) - 1;
-                BalldirY+=1;}
-                else
-                    if (leftPaddle.getPlayerDirection() == Direction.NONE)
-                        BalldirX*=-1;
-        if (BallX + BalldirX>= frame.getWidth()-130 && BallX + BalldirX <= frame.getWidth()-105 && BallY + BalldirY <= rightPaddle.getY() + rightPaddle.getPaddleHeight() + 5 && BallY + BalldirY > rightPaddle.getY() + 5)
-            if (rightPaddle.getPlayerDirection() == Direction.UP){
-                BalldirX = BalldirX * -1 - 1;
-            BalldirY += 1;}
-            else
-            if (rightPaddle.getPlayerDirection() == Direction.DOWN){
-                BalldirX = (BalldirX * -1) + 1 ;
-                BalldirY -=1;
-            }
-            else
-            if (rightPaddle.getPlayerDirection() == Direction.NONE)
-                BalldirX*=-1;
-        //столкновение с краями ракеток
-        if (BallX  <= 125 && BallX >= 95 && BallY >= leftPaddle.getY() + 5 && BallY <= leftPaddle.getY() -15) //с левой ракеткой сверху
-            BalldirY *=-1;
-        if (BallX <= 125 && BallX >=0 && BallY <= leftPaddle.getY() + frame.getHeight()/7 && BallY >= leftPaddle.getY() + frame.getHeight()/7 - 10) //с левой ракеткой сверху
-            BalldirY *=-1;
+
+        }
+        if (BallX + BalldirX >= frame.getWidth() - 130 && BallX + BalldirX <= frame.getWidth() - 125 && BallY + BalldirY <= rightPaddle.getY() + rightPaddle.getPaddleHeight() + 20 && BallY + BalldirY > rightPaddle.getY() - 20) {
+            BalldirX = (BalldirX * -1);
+            if (BalldirY == 2 || BalldirY == -2) {
+                BalldirY = BalldirY + ((Math.random() < 0.5) ? -1 : 1);
+            } else if (BalldirY < 0) {
+                BalldirY = -2;
+            } else
+                BalldirY = 2;
+        }
+        if (((BallX <= 125 && BallX >= 100) || (BallX > frame.getWidth() - 130 && BallX < frame.getWidth() - 110)) && (BallY + 5 > leftPaddle.getY() + 125 && BallY - 5 < leftPaddle.getY()))
+            BalldirY *= -1;
 
 
     }
 
 
-    public void setXDirection(int xDir){
+    public void setXDirection(int xDir) {
         BalldirX = xDir;
     }
-    public void setYDirection(int yDir){
+
+    public void setYDirection(int yDir) {
         BalldirY = yDir;
     }
 
@@ -118,15 +121,22 @@ public class Ball {
     public String getP2score() {
         return String.valueOf(p2score);
     }
-    private void spawnBall(){
 
-        BalldirX = (int) (Math.random()*BallSpeed*2)- BallSpeed;
-        if(BalldirX  ==  0)
-            BalldirX +=2;
-        BalldirY = (int) (Math.random()*2) - 1;
-        if(BalldirY == 0)
-            BalldirY+=1;
-        BalldirY = (int) Math.sqrt(BallSpeed*BallSpeed - BalldirX*BalldirX) * BalldirY;
+    private void spawnBall() {
+        if (!Main.menu) try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        BallX = frame.getWidth() / 2;
+        BallY = frame.getHeight() / 2;
+        BalldirX = ((Math.random() < 0.5) ? -5 : 5);
+        BalldirY = ((Math.random() < 0.5) ? -2 : 2);
+        BalldirY = (int) Math.sqrt(BallSpeed * BallSpeed - BalldirX * BalldirX) * ((Math.random() < 0.5) ? -1 : 1);
+
     }
 
+    public int getBallDirY() {
+        return BalldirY;
+    }
 }
